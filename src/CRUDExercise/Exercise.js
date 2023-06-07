@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TextInput, Button, ScrollView, StyleSheet, Alert, Text } from 'react-native';
+import { View, TextInput,ScrollView, StyleSheet, Alert, Text, TouchableOpacity} from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from '@react-navigation/native';
 
@@ -38,18 +38,18 @@ const ExerciseComponent = () => {
       intensidad: 0,
       fecha: new Date().getTime(),
     });
-    
+
   };
 
   return (
     <ScrollView>
       <View style={styles.container}>
-      <Text style={styles.Text}>Crear nuevo ejercicio</Text>
+        <Text style={styles.Text}>Crear nuevo ejercicio</Text>
         <TextInput
           style={styles.input}
           placeholder="Nombre del ejercicio"
           value={exerciseData.nombre}
-          onChangeText={(value) => handleInputChange('nombre', value)}/>
+          onChangeText={(value) => handleInputChange('nombre', value)} />
 
 
         <Text style={styles.Text}>Tipo de ejercicio</Text>
@@ -61,6 +61,7 @@ const ExerciseComponent = () => {
           <Picker.Item label="Flexibilidad" value="Flexibilidad" />
           <Picker.Item label="Fuerza" value="Fuerza" />
         </Picker>
+
         <Text style={styles.Text}>Tiempo de sesion</Text>
         <TextInput
           style={styles.input}
@@ -77,7 +78,9 @@ const ExerciseComponent = () => {
           onChangeText={(value) => handleInputChange('intensidad', value)} keyboardType='numeric'
         />
 
-        <Button style={styles.button} title="Crear Ejercicio" onPress={createExercise} />
+        <TouchableOpacity style={styles.button} onPress={createExercise}>
+          <Text style={styles.buttonText}>Crear nuevo ejercicio</Text>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );
@@ -88,50 +91,35 @@ const ExerciseComponent = () => {
 
 const styles = new StyleSheet.create({
   container: {
-    backgroundColor: 'white',
-    padding: 20,
-    borderRadius: 10,
-    marginBottom: 10,
+    flex: 1,
+    padding: 10,
+    backgroundColor: '#fff',
+  },
+  label: {
+    fontSize: 18,
+    marginBottom: 5,
+    color: 'orange',
   },
   input: {
     fontSize: 18,
-    backgroundColor: 'white',
-    padding: 10,
-    marginBottom: 10,
+    marginBottom: 15,
+    borderWidth: 1,
+    borderColor: 'gray',
     borderRadius: 5,
+    padding: 5,
   },
   button: {
     backgroundColor: 'orange',
     padding: 10,
-    fontSize: 20,
-    borderRadius: 5,
     textAlign: 'center',
+    borderRadius: 5,
+    marginTop: 15,
   },
   buttonText: {
+    fontSize: 18,
     color: 'white',
-    fontSize: 20,
-    textAlign: 'center',
-  },
-  Text: {
-    fontSize: 20,
     fontWeight: 'bold',
-    color: 'black',
     textAlign: 'center',
-    marginBottom: 10,
-  },
-  input: {
-    marginBottom: 10,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 4,
-    fontSize: 16,
-  },
-  orangeBorder: {
-    borderColor: 'orange',
-    borderWidth: 2,
   },
 });
-
 export default ExerciseComponent;

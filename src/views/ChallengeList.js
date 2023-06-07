@@ -1,19 +1,45 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { View, Text, FlatList, StyleSheet, Alert, TouchableOpacity } from 'react-native';
 import { collection, query, onSnapshot, addDoc, deleteDoc, doc } from 'firebase/firestore';
-import { HeaderButton, Item } from 'react-navigation-header-buttons';
 import { useNavigation } from '@react-navigation/native';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import { db } from '../services/firebase';
-import { Button } from 'react-native-paper';
+import { Button, IconButton } from 'react-native-paper';
+
+import Modal from 'react-native-modal';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
 
 const ChallengeList = () => {
   const navigation = useNavigation();
   const [challengeData, setChallengeData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [borrarModalVisible, setBorrarModalVisible] = useState(false);
+  const [desafioIdBorrar, setDesafioIdBorrar] = useState(null);
 
-  const CustomHeaderButton = (props) => (
-    <HeaderButton {...props} IconComponent={Ionicons} iconSize={23} color="orange" />
-  );
+
+  const borrarDesafio = async (desafioId) => {
+    try {
+      setBorrarModalVisible(true);
+      setDesafioIdBorrar(desafioId);
+    } catch (error) {
+      console.log('Error al borrar el desafío:', error);
+    }
+  };
+
+  const borrarEjercicioConfirmado = async () => {
+    try {
+      setIsLoading(true);
+      await deleteDoc(doc(db, 'challenges', desafioIdBorrar));
+      setDesafioIdBorrar(null);
+      Alert.alert('Desafío borrado correctamente');
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      console.log('Error al borrar el desafío:', error);
+    }
+  };
+
+
   const formatFecha = (fecha) => {
     if (isNaN(fecha) || fecha.toString() === 'Invalid Date') {
       return 'Fecha inválida';
@@ -32,7 +58,7 @@ const ChallengeList = () => {
 
       // Agregar el desafío completado a la colección "completedChallenges", quitando el id, el campo index y el campo completado
       await addDoc(collection(db, 'completedChallenges'), {
-        ejercicioId: challenge.ejercicioId,
+        tipo: challenge.tipo,
         fechaInicio: challenge.fechaInicio,
         fecha_Fin: challenge.fechaFin,
         tiempo_Objetivo: challenge.tiempoObjetivo,
@@ -59,7 +85,7 @@ const ChallengeList = () => {
           onPress={handleOpenCompletedChallenges}
         >
 
-          <Text style={styles.headerButtonText}>Desafíos completados</Text>
+          <Text adjustsFontSizeToFit numberOfLines={1} style={styles.headerButtonText}>Desafíos completados</Text>
         </TouchableOpacity>
       ),
     });
@@ -76,7 +102,7 @@ const ChallengeList = () => {
         challenges.push({
           id: doc.id,
           index: challenges.length + 1,
-          ejercicioId: challenge.ejercicioId,
+          tipo: challenge.tipo,
           fechaInicio: formatFecha(new Date(challenge.fechaInicio)),
           fechaFin: formatFecha(new Date(challenge.fecha_Fin)),
           tiempoObjetivo: challenge.tiempo_Objetivo,
@@ -97,8 +123,8 @@ const ChallengeList = () => {
         renderItem={({ item }) => (
           <View style={styles.itemContainer}>
             <Text style={styles.title}>Desafío No. {item.index}</Text>
-            <Text style={styles.label}>Ejercicio:</Text>
-            <Text style={styles.value}>{item.ejercicioId}</Text>
+            <Text style={styles.label}>Tipo de ejercicio:</Text>
+            <Text style={styles.value}>{item.tipo}</Text>
             <Text style={styles.label}>Fecha de inicio:</Text>
             <Text style={styles.value}>{item.fechaInicio.toLocaleString()}</Text>
             <Text style={styles.label}>Fecha de fin:</Text>
@@ -107,14 +133,49 @@ const ChallengeList = () => {
             <Text style={styles.value}>{item.tiempoObjetivo}</Text>
             <Text style={styles.label}>Peso objetivo:</Text>
             <Text style={styles.value}>{item.pesoObjetivo}</Text>
-            <Button
-              style={styles.button}
-              mode="contained"
-              labelStyle={styles.buttonText}
-              onPress={() => marcarComoCompletado(item.id)}
+            <View style={styles.buttonContainer}>
+              <Button
+                style={styles.button}
+                mode="contained"
+                labelStyle={styles.buttonText}
+                onPress={() => marcarComoCompletado(item.id)}
+              >
+                Marcar como completado
+              </Button>
+              <Button
+                style={styles.button}
+                mode="contained"
+                labelStyle={styles.buttonText}
+                onPress={() => borrarDesafio(item.id)}
+              >
+                Borrar
+              </Button>
+            </View>
+
+            <Modal
+              visible={borrarModalVisible}
+              transparent
+              animationType="fade"
+              onRequestClose={() => setBorrarModalVisible(false)}
             >
-              Marcar como completado
-            </Button>
+              <View style={styles.modalContainer}>
+                <Text style={styles.modalText}>¿Estás seguro de que deseas borrar el ejercicio?</Text>
+                <View style={styles.modalButtonsContainer}>
+                  <TouchableOpacity
+                    style={styles.modalButton}
+                    onPress={borrarEjercicioConfirmado}
+                  >
+                    <Text style={styles.modalButtonText}>Borrar</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.modalButton}
+                    onPress={() => setBorrarModalVisible(false)}
+                  >
+                    <Text style={styles.modalButtonText}>Cancelar</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </Modal>
           </View>
         )}
       />
@@ -142,14 +203,18 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: 'orange',
+    borderRadius: 10,
     padding: 2,
     textAlign: 'center',
     fontSize: 16,
+    fontWeight: 'bold',
+    marginHorizontal: 10,
+    flexDirection: 'row',
   },
   buttonText: {
     textAlign: 'center',
     color: 'white',
-    fontSize: 18,
+    fontSize: 15,
   },
   label: {
     fontSize: 20,
@@ -162,7 +227,7 @@ const styles = StyleSheet.create({
   },
   headerButton: {
     backgroundColor: 'orange',
-    borderRadius: 10,
+    borderRadius: 5,
     padding: 10,
     paddingVertical: 10,
     paddingHorizontal: 20,
@@ -175,6 +240,50 @@ const styles = StyleSheet.create({
   headerButtonText: {
     color: 'white',
     fontWeight: 'bold',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    marginTop: 5,
+  },
+  iconButton: {
+    marginLeft: 10,
+    borderRadius: 20,
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  icon: {
+    color: 'orange',
+  },
+  modalContainer: {
+    backgroundColor: 'white',
+    padding: 16,
+    borderRadius: 8,
+  },
+  modalText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 16,
+    textAlign: 'center',
+  },
+  modalButtonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginLeft: 24,
+    marginRight: 24,
+  },
+  modalButton: {
+    backgroundColor: '#FFA500',
+    borderRadius: 8,
+    paddingVertical: 8,
+    paddingHorizontal: 30,
+  },
+  modalButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 14,
+    textAlign: 'center',
   },
 });
 

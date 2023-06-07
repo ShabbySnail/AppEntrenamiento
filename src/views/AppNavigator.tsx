@@ -13,11 +13,11 @@ import ExerciseList from './ExerciseList';
 import ChallengeList from './ChallengeList';
 import ExerciseEdit from '../CRUDExercise/ExerciseEdit';
 import ChallengeCompletedList from './ChallengeCompletedList';
-
+import ExerciseGraphComponent from '../CRUDExercise/Statistics';
 //Sesiones 
 import SignUp from '../auth/SignUp';
 import LogIn from '../auth/LogIn';
-import Profile from './Profile';
+//import Profile from './Profile';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -41,8 +41,8 @@ const BottomTab = () => {
             iconName = focused ? 'trophy' : 'trophy-outline';
             color = focused ? '#FFA500' : 'gray';
             break;
-          case 'Sesiones':
-            iconName = focused ? 'person' : 'person-outline';
+          case 'Estadisticas':
+            iconName = focused ? 'stats-chart' : 'stats-chart-outline';
             color = focused ? '#FFA500' : 'gray';
             break;
         }
@@ -74,7 +74,7 @@ const AppNavigator = () => {
         <Stack.Screen name="ChallengeCompletedList" component={ChallengeCompletedList} options={{title: 'Desafios Completados'}}/>
         <Stack.Screen name="SignUp" component={SignUp} options={{title: 'Registro'}}/>
         <Stack.Screen name="LogIn" component={LogIn} options={{title: 'Iniciar Sesión'}}/>
-        <Stack.Screen name="Perfil" component={Profile} options={{title: 'Perfil'}}/>
+        <Stack.Screen name="Estadisticas" component={ExerciseGraphComponent} options={{title: 'Estadisticas'}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

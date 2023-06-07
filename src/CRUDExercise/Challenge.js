@@ -19,30 +19,12 @@ const ChallengeComponent = () => {
   };
 
   const [challengeData, setChallengeData] = useState({
-    ejercicioId: '',
+    tipo: '',
     fechaInicio: new Date().getTime(),
     fecha_Fin: new Date(),
     tiempo_Objetivo: 0,
     peso_objetivo: 0
   });
-
-  const [exerciseOptions, setExerciseOptions] = useState([]);
-
-  React.useEffect(() => {
-    fetchExerciseOptions();
-  }, []);
-
-  const fetchExerciseOptions = async () => {
-    const exercisesRef = collection(db, 'exercises');
-    const querySnapshot = await getDocs(exercisesRef);
-
-    const options = querySnapshot.docs.map((doc) => ({
-      label: doc.data().nombre,
-      value: doc.id
-    }));
-
-    setExerciseOptions(options);
-  };
 
 
   const handleInputChange = (name, value) => {
@@ -66,7 +48,7 @@ const ChallengeComponent = () => {
       navigation.goBack();
 
       setChallengeData({
-        ejercicioId: '',
+        tipo: '',
         fecha_Fin: new Date(),
         tiempo_Objetivo: 0,
         peso_objetivo: 0
@@ -83,12 +65,12 @@ const ChallengeComponent = () => {
         {/* Formulario */}
         <Text style={styles.Text}>Crear desafío</Text>
         <Picker
-          selectedValue={challengeData.ejercicioId}
-          onValueChange={(value) => handleInputChange('ejercicioId', value)}
+          selectedValue={challengeData.tipo}
+          onValueChange={(value) => handleInputChange('tipo', value)}
         >
-          {exerciseOptions.map((option) => (
-            <Picker.Item key={option.value} label={option.label} value={option.label} />
-          ))}
+          <Picker.Item label="Aerobico" value="Aerobico" />
+          <Picker.Item label="Flexibilidad" value="Flexibilidad" />
+          <Picker.Item label="Fuerza" value="Fuerza" />
         </Picker>
 
 
@@ -119,8 +101,10 @@ const ChallengeComponent = () => {
             value={challengeData.peso_objetivo}
             onChangeText={(value) => handleInputChange('peso_objetivo', value)} keyboardType="numeric" />
         </TouchableOpacity>
-        {/* Botón de crear desafío */}
-        <Button title="Crear Desafío" onPress={createChallenge} />
+
+        <TouchableOpacity style={styles.button} onPress={createChallenge}>
+          <Text style={styles.buttonText}>Crear nuevo desafío</Text>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );
@@ -132,27 +116,33 @@ export default ChallengeComponent;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    padding: 10,
     backgroundColor: '#fff',
   },
-  Text: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: 'black',
-    textAlign: 'center',
-    marginBottom: 10,
+  label: {
+    fontSize: 18,
+    marginBottom: 5,
+    color: 'orange',
   },
   input: {
-    marginBottom: 10,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
+    fontSize: 18,
+    marginBottom: 15,
     borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 4,
-    fontSize: 16,
+    borderColor: 'gray',
+    borderRadius: 5,
+    padding: 5,
   },
-  orangeBorder: {
-    borderColor: 'orange',
-    borderWidth: 2,
+  button: {
+    backgroundColor: 'orange',
+    padding: 10,
+    textAlign: 'center',
+    borderRadius: 5,
+    marginTop: 15,
+  },
+  buttonText: {
+    fontSize: 18,
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 });

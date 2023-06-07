@@ -5,7 +5,6 @@ import Modal from 'react-native-modal';
 import { db } from '../services/firebase';
 import { format } from 'date-fns';
 import { useNavigation } from '@react-navigation/native';
-import AppNavigator from './AppNavigator';
 
 
 

@@ -17,7 +17,7 @@ const ChallengeCompletedList = () => {
         completedChallenges.push({
           id: doc.id,
           index: completedChallenge.length + 1,
-          ejercicioId: completedChallenge.ejercicioId,
+          tipo: completedChallenge.tipo,
           fechaInicio: completedChallenge.fechaInicio,
           fechaFin: completedChallenge.fecha_Fin,
           tiempoObjetivo: completedChallenge.peso_objetivo,
@@ -38,7 +38,7 @@ const ChallengeCompletedList = () => {
         keyExtractor={challengesCompleted => challengesCompleted.id}
         renderItem={({ item }) => (
           <View style={styles.itemContainer}>
-          <Text style={styles.title}>Desafío: {item.ejercicioId}</Text>
+          <Text style={styles.title}>Desafío: {item.tipo}</Text>
             <Text style={styles.label}>Fecha de inicio:</Text>
             <Text style={styles.value}>{item.fechaInicio}</Text>
             <Text style={styles.label}>Fecha de fin:</Text>
