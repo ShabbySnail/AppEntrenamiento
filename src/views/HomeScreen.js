@@ -17,10 +17,6 @@ const HomeScreen = () => {
     navigation.navigate('Desafíos');
   };
 
- // const navigateToProfile = () => {
- //   navigation.navigate('Perfil');
- // };
-
   const navigateToStatistics = () => {
     navigation.navigate('Estadisticas');
   };
@@ -31,7 +27,7 @@ const HomeScreen = () => {
       <View style={styles.row}>
         <View style={styles.column}>
           <TouchableOpacity onPress={navigateToExerciseList} style={styles.button}>
-            <Icon name= 'running' style={styles.icon} />
+            <Icon name="plus" style={styles.icon} />
             <Text style={styles.buttonText}>Registrar entrenamiento</Text>
           </TouchableOpacity>
         </View>
