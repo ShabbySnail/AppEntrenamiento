@@ -28,20 +28,18 @@ const ChallengeComponent = () => {
 
 
   const handleInputChange = (name, value) => {
-    if (name === 'fecha_Fin') {
-      // Convertir el valor de fecha a un timestamp en milisegundos
-      value = getTime(value);
-    }
     setChallengeData((prevState) => ({
       ...prevState,
       [name]: value
     }));
   };
+  
 
   const createChallenge = async () => {
     try {
       const challengesCollection = collection(db, 'challenges');
       const newChallenge = { ...challengeData };
+      newChallenge.fecha_Fin = newChallenge.fecha_Fin.getTime();
       const challengeDoc = await addDoc(challengesCollection, newChallenge);
       console.log('Challenge created with ID:', challengeDoc.id);
       Alert.alert('Desafío creado');
@@ -69,6 +67,7 @@ const ChallengeComponent = () => {
           selectedValue={challengeData.tipo}
           onValueChange={(value) => handleInputChange('tipo', value)}
         >
+          <Picker.Item label="Selecciona un tipo de ejercicio" value="" />
           <Picker.Item label="Aerobico" value="Aerobico" />
           <Picker.Item label="Flexibilidad" value="Flexibilidad" />
           <Picker.Item label="Fuerza" value="Fuerza" />
