@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 10,
+    color: 'black',
   },
   itemContainer: {
     marginBottom: 16,
@@ -98,6 +99,7 @@ const styles = StyleSheet.create({
   value: {
     fontSize: 16,
     marginBottom: 10,
+    color: 'black',
   },
 });
 

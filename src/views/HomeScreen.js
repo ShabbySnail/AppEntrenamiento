@@ -32,21 +32,16 @@ const HomeScreen = () => {
           </TouchableOpacity>
         </View>
         <View style={styles.column}>
-          <TouchableOpacity onPress={navigateToChallengeList} style={styles.button}>
+          <TouchableOpacity onPress={navigateToChallengeList} style={styles.button2}>
             <Icon name="trophy" style={styles.icon} />
-            <Text style={styles.buttonText}>Registrar un nuevo Desafio</Text>
+            <Text style={styles.buttonText}>Registrar</Text>
+            <Text style={styles.buttonText}>desafío</Text>
           </TouchableOpacity>
         </View>
       </View>
       <View style={styles.row}>
         <View style={styles.column}>
-        <TouchableOpacity onPress={navigateToChallengeList} style={styles.button}>
-            <Icon name="user" style={styles.icon} />
-            <Text style={styles.buttonText}>Perfil</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.column}>
-          <TouchableOpacity onPress={navigateToStatistics} style={styles.button}>
+          <TouchableOpacity onPress={navigateToStatistics} style={styles.button3}>
             <Icon name="bar-chart" style={styles.icon} />
             <Text style={styles.buttonText}>Estadisticas</Text>
           </TouchableOpacity>
@@ -79,7 +74,23 @@ const styles = StyleSheet.create({
     width: '80%',
     height: '80%',
     borderRadius: 50,
-    backgroundColor: '#FFA500', // Cambia el color del fondo a naranja
+    backgroundColor: '#689F38', // Cambia el color del fondo a verde
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  button2: {
+    width: '80%',
+    height: '80%',
+    borderRadius: 50,
+    backgroundColor: 'orange', // Cambia el color del fondo a azul oscuro
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  button3: {
+    width: '80%',
+    height: '80%',
+    borderRadius: 50,
+    backgroundColor: '#FF5733', // Cambia el color del fondo a gris oscuro
     alignItems: 'center',
     justifyContent: 'center',
   },

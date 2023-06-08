@@ -159,7 +159,7 @@ const ChallengeList = () => {
               onRequestClose={() => setBorrarModalVisible(false)}
             >
               <View style={styles.modalContainer}>
-                <Text style={styles.modalText}>¿Estás seguro de que deseas borrar el ejercicio?</Text>
+                <Text style={styles.modalText}>¿Estás seguro de que deseas borrar el desafio?</Text>
                 <View style={styles.modalButtonsContainer}>
                   <TouchableOpacity
                     style={styles.modalButton}
@@ -194,6 +194,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 10,
+    color: 'black',
   },
   itemContainer: {
     marginBottom: 16,
@@ -201,20 +202,22 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8f8f8',
     borderRadius: 8,
   },
-  button: {
-    backgroundColor: 'orange',
-    borderRadius: 10,
-    padding: 2,
-    textAlign: 'center',
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginHorizontal: 10,
+  buttonContainer: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 20,
+  },
+  button: {
+    flex: 1,
+    marginHorizontal: 5,
+    height: 40,
+    backgroundColor: 'orange',
+    color: 'white',
   },
   buttonText: {
-    textAlign: 'center',
+    fontSize: 16,
+    fontWeight: 'bold',
     color: 'white',
-    fontSize: 15,
   },
   label: {
     fontSize: 20,
@@ -224,6 +227,7 @@ const styles = StyleSheet.create({
   value: {
     fontSize: 16,
     marginBottom: 10,
+    color: 'black',
   },
   headerButton: {
     backgroundColor: 'orange',
@@ -240,10 +244,6 @@ const styles = StyleSheet.create({
   headerButtonText: {
     color: 'white',
     fontWeight: 'bold',
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    marginTop: 5,
   },
   iconButton: {
     marginLeft: 10,
@@ -266,6 +266,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 16,
     textAlign: 'center',
+    color : 'black',
   },
   modalButtonsContainer: {
     flexDirection: 'row',

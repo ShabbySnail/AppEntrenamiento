@@ -105,7 +105,7 @@ const ExerciseGraphComponent = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tiempo total dedicado por tipo de ejercicio</Text>
+      <Text style={styles.title}>Sesiones de ejercicio (Minutos)</Text>
       <BarChart
         data={exerciseChartData}
         width={300}
@@ -124,7 +124,7 @@ const ExerciseGraphComponent = () => {
         style={styles.chart}
       />
 
-      <Text style={styles.title}>Tiempo dedicado a Desafios completados</Text>
+      <Text style={styles.title}>Desafios completados (Minutos)</Text>
       <BarChart
         data={completedChallengeChartData}
         width={300}

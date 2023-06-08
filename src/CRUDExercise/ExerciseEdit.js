@@ -61,6 +61,7 @@ const ExerciseEdit = React.memo(({ route, navigation }) => {
             <Picker
                 selectedValue={selectedTipo}
                 onValueChange={(itemValue) => setSelectedTipo(itemValue)}
+                style={styles.picker}
             >
                 <Picker.Item label="Aerobico" value="Aerobico" />
                 <Picker.Item label="Flexibilidad" value="Flexibilidad" />
@@ -92,6 +93,7 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 10,
         backgroundColor: '#fff',
+        color: 'black',
     },
     label: {
         fontSize: 18,
@@ -105,6 +107,7 @@ const styles = StyleSheet.create({
         borderColor: 'gray',
         borderRadius: 5,
         padding: 5,
+        color : 'black',
     },
     button: {
         backgroundColor: 'orange',
@@ -119,6 +122,15 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center',
     },
+    picker: {
+        fontSize: 18,
+        padding: 5,
+        marginBottom: 15,
+        borderWidth: 1,
+        borderRadius: 5,
+        color: 'black',
+    },
+    
 });
 
 

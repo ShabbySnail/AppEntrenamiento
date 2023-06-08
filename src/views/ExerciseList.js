@@ -137,6 +137,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 8,
+    color: 'black',
   },
   label: {
     fontSize: 14,
@@ -147,6 +148,7 @@ const styles = StyleSheet.create({
   value: {
     fontSize: 14,
     marginBottom: 8,
+    color: 'black',
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -177,6 +179,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 16,
     textAlign: 'center',
+    color : 'black',
   },
   modalButtonsContainer: {
     flexDirection: 'row',

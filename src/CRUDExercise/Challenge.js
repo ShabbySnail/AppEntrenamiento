@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
-import { View, Button, Text, StyleSheet, TextInput, Switch, Alert, ScrollView, TouchableOpacity } from 'react-native';
-import { collection, addDoc, getDocs } from 'firebase/firestore';
+import { View, Text, StyleSheet, TextInput, Alert, ScrollView, TouchableOpacity } from 'react-native';
+import { collection, addDoc } from 'firebase/firestore';
 import DatePicker from 'react-native-date-picker';
 import { Picker } from '@react-native-picker/picker';
 import { getTime } from 'date-fns';
@@ -65,6 +65,7 @@ const ChallengeComponent = () => {
         {/* Formulario */}
         <Text style={styles.Text}>Crear desafío</Text>
         <Picker
+          style={styles.picker}
           selectedValue={challengeData.tipo}
           onValueChange={(value) => handleInputChange('tipo', value)}
         >
@@ -76,33 +77,35 @@ const ChallengeComponent = () => {
 
         <Text style={styles.Text}>Fecha limite de Desafio</Text>
         <DatePicker
-          style={styles.orangeBorder}
           placeholder="Fecha Final de Desafio"
           date={challengeData.fecha_Fin instanceof Date ? challengeData.fecha_Fin : new Date()}
           mode="date"
           format="YYYY-MM-DD"
-          onDateChange={date => handleInputChange('fecha_Fin', date)}
+          onDateChange={(date) => handleInputChange('fecha_Fin', date)}
+          style={styles.datePickerContainer} // Actualiza el estilo del contenedor
+          pickerStyle={styles.pickerStyle}
+          customStyles={{
+            datePicker: styles.datePicker, // Aplica el estilo personalizado al DatePicker
+          }}
         />
-
         <Text style={styles.Text}>Tiempo Objetivo</Text>
-        <TouchableOpacity onPress={handleInputPress}>
-          <TextInput
-            style={styles.input}
-            placeholder="Tiempo Objetivo (minutos)"
-            value={challengeData.tiempo_Objetivo}
-            onChangeText={(value) => handleInputChange('tiempo_Objetivo', value)} keyboardType="numeric" />
-        </TouchableOpacity>
+
+        <TextInput
+          style={styles.input}
+          placeholder="Tiempo Objetivo (minutos)"
+          placeholderTextColor={styles.placeholderText.color}
+          value={challengeData.tiempo_Objetivo}
+          onChangeText={(value) => handleInputChange('tiempo_Objetivo', value)} keyboardType="numeric" />
 
         <Text style={styles.Text}>Peso Objetivo</Text>
-        <TouchableOpacity onPress={handleInputPress}>
-          <TextInput
-            style={styles.input}
-            placeholder="Peso Objetivo (Kg)"
-            value={challengeData.peso_objetivo}
-            onChangeText={(value) => handleInputChange('peso_objetivo', value)} keyboardType="numeric" />
-        </TouchableOpacity>
+        <TextInput
+          style={styles.input}
+          placeholder="Peso Objetivo (Kg)"
+          placeholderTextColor={styles.placeholderText.color}
+          value={challengeData.peso_objetivo}
+          onChangeText={(value) => handleInputChange('peso_objetivo', value)} keyboardType="numeric" />
 
-        <TouchableOpacity style={styles.button} onPress={createChallenge}>
+        <TouchableOpacity style={styles.buttonContainer} onPress={createChallenge}>
           <Text style={styles.buttonText}>Crear nuevo desafío</Text>
         </TouchableOpacity>
       </View>
@@ -116,33 +119,55 @@ export default ChallengeComponent;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
-    backgroundColor: '#fff',
+    padding: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  label: {
+  Text: {
     fontSize: 18,
-    marginBottom: 5,
-    color: 'orange',
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color : 'black'
+  },
+  picker: {
+    width: '80%',
+    marginBottom: 20,
+    color: 'black',
+  },
+  datePickerContainer: {
+    width: 300, // Ajusta el valor de ancho según tus necesidades
+    marginBottom: 20,
+  },
+  datePicker: {
+    backgroundColor: 'white',
+    borderRadius: 5,
+    elevation: 2,
+  },
+  pickerStyle: {
+    color: 'black',
+    fontSize: 16,
   },
   input: {
-    fontSize: 18,
-    marginBottom: 15,
-    borderWidth: 1,
+    width: '100%',
+    height: 40,
     borderColor: 'gray',
-    borderRadius: 5,
-    padding: 5,
+    borderWidth: 1,
+    marginBottom: 20,
+    paddingLeft: 10,
+    color: 'black',
   },
-  button: {
+  placeholderText: {
+    color: 'gray',
+  },
+  buttonContainer: {
     backgroundColor: 'orange',
-    padding: 10,
-    textAlign: 'center',
+    paddingVertical: 15,
+    paddingHorizontal: 30,
     borderRadius: 5,
-    marginTop: 15,
   },
   buttonText: {
-    fontSize: 18,
     color: 'white',
+    fontSize: 16,
     fontWeight: 'bold',
-    textAlign: 'center',
   },
 });
